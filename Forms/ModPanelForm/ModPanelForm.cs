@@ -11,8 +11,8 @@ namespace YKW1S_Mod_Tools
     public partial class ModPanelForm : Form
     {
         private int ModAmount = 0;
-        private Panel scrollablePanel; // Create a panel for scrolling
-        public bool DRM_MODE = false;
+        private Panel ScrollablePanel; // Create a panel for scrolling
+        public bool DrmMode = false;
 
         public ModPanelForm()
         {
@@ -22,7 +22,7 @@ namespace YKW1S_Mod_Tools
         private void modPanel_Load(object sender, EventArgs e)
         {
             // Create the scrollable panel with appropriate size and AutoScroll enabled
-            scrollablePanel = new Panel
+            ScrollablePanel = new Panel
             {
                 AutoScroll = true,
                 BackColor = Color.LightGray,
@@ -31,7 +31,7 @@ namespace YKW1S_Mod_Tools
             };
 
             // Add the scrollable panel to the form
-            Controls.Add(scrollablePanel);
+            Controls.Add(ScrollablePanel);
 
             SetModDescriptors();
         }
@@ -163,7 +163,7 @@ namespace YKW1S_Mod_Tools
                     };
                     mdPanel.Controls.Add(ModDeleteBtn);
                     ModDeleteBtn.Click += (sender, e) => ModDeleteBtn_Click(sender, e, modFile.Text);
-                    scrollablePanel.Controls.Add(mdPanel);
+                    ScrollablePanel.Controls.Add(mdPanel);
 
                 }
             }
@@ -180,7 +180,7 @@ namespace YKW1S_Mod_Tools
             if (result == DialogResult.Yes)
             {
                 File.Delete(Path.Combine(Directory.GetCurrentDirectory(), @"Mods\" ,ModFile));
-                scrollablePanel.Controls.Clear();
+                ScrollablePanel.Controls.Clear();
                 ModAmount = 0; // Reset ModAmount
 
                 // Re-fetch and set the mod descriptors
@@ -224,14 +224,14 @@ namespace YKW1S_Mod_Tools
                     {
                         Directory.CreateDirectory(destinationSubdirectory);
                     }
-                    if (!Directory.Exists(baseDestinationSubdirectory) && DRM_MODE)
+                    if (!Directory.Exists(baseDestinationSubdirectory) && DrmMode)
                     {
                         Directory.CreateDirectory(baseDestinationPath);
                     }
 
                     // Copy the file to the destination directory
                     File.Copy(file, destinationPath, true);  // Overwrite if file exists
-                    if (DRM_MODE) { File.Copy(file, baseDestinationPath, true); }
+                    if (DrmMode) { File.Copy(file, baseDestinationPath, true); }
                 }
                 catch (Exception ex)
                 {
@@ -295,7 +295,7 @@ namespace YKW1S_Mod_Tools
         private void ImportBtn_Click(object sender, EventArgs e)
         {
             ImportModFile();
-            scrollablePanel.Controls.Clear();
+            ScrollablePanel.Controls.Clear();
             ModAmount = 0; // Reset ModAmount
 
             // Re-fetch and set the mod descriptors
@@ -309,14 +309,14 @@ namespace YKW1S_Mod_Tools
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (DRM_MODE)
+            if (DrmMode)
             {
-                DRM_MODE = false;
+                DrmMode = false;
                 drmButton.Text = "DRM MODE (OFF)";
             }
             else
             {
-                DRM_MODE = true;
+                DrmMode = true;
                 drmButton.Text = "DRM MODE (ON)";
             }
         }
